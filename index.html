@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Socket.IO 实时通讯聊天</title>
-		<style>
-	      * { margin: 0; padding: 0; box-sizing: border-box; }
-	      body { font: 13px Helvetica, Arial; }
-	      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-	      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-	      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-	      #messages { list-style-type: none; margin: 0; padding: 0; }
-	      #messages li { padding: 5px 10px; }
-	      #messages li:nth-child(odd) { background: #eee; }
-	    </style>
-	</head>
-	<body>
-		<ul id="messages"></ul>
-		<form action="">
-			<input type="text" id="m" autocomplete="off" /><button>Send</button>
-		</form>
-	</body>
-	<script src="/scoket.io/socket.io.js"></script>
-	<script>
-		var socket = io();
-		io.on('connection', function(socket){
-			console.log('a user connected');
-			socket.on('disconnect',function(){
-				console.log('user disconnected');
-			})
-		})
-	</script>
+    <head>
+        <meta charset="utf-8" />
+		<meta name="robots" content="all"/>
+	    <meta name="Copyright" content=""/>
+	    <meta name="viewport" content="initial-scale=1, user-scalable=no"/>
+	    <meta name="apple-mobile-web-app-capable" content="yes"/>
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	    <meta name="format-detection" content="telephone=no, email=no"/>
+	    <meta name="msapplication-tap-highlight" content="no">
+	    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+        <title>多人聊天室</title>
+        <link rel="stylesheet" type="text/css" href="./css/style.css" />
+        <!--<script src="http://localhost:3000/socket.io/socket.io.js"></script>-->
+    </head>
+    <body bgcolor="#ecedf1">
+    	<div class="main">
+    		<header>
+	        	<div class="rn-w-header clearfix">
+	        		<div class="col-sm-3 rn-i-p pd0 "><p><span class="fs18"><</span>返回</p></div>
+	        		<div class="col-sm-6 fs18"><p>飘香悄悄话</p></div>
+	        		<div class="col-sm-3 pd0"><p>详细</p></div>
+	        	</div>
+        	</header>
+        	<section>
+        		<div class="rn-i-session">
+        		</div>
+        	</section>
+        	<footer>
+        		<div class="rn-i-footer">
+        			<div class="col-sm-10">
+        				<input id="inputText" type="text" />
+        			</div>
+        			<div class="col-sm-2 rn-i-div pl0">
+        				<p class="text-center">发送</p>
+        			</div>
+        		</div>
+    		</footer>
+    	</div>
+    </body>
+    <script>
+    	window.onload = function{
+    		var inputText = document.getElementById('inputText');
+    		console.log()
+    	}
+    </script>
 </html>
