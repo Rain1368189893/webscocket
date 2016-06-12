@@ -12,37 +12,56 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
         <title>多人聊天室</title>
         <link rel="stylesheet" type="text/css" href="./css/style.css" />
-        <!--<script src="http://localhost:3000/socket.io/socket.io.js"></script>-->
+        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     </head>
     <body bgcolor="#ecedf1">
-    	<div class="main">
+    	<div class="clearfix" id="logonbox">
+    		<p>请先输入你在聊天室的昵称</p>
+    		<div class="col-sm-12">
+	    		<input type="text" class="col-sm-8" placeholder="请输入用户名" id="username" name="username" />
+	    		<input type="button" class="col-sm-4"  value="提交" onclick="CHAT.usernameSubmit();" />
+    		</div>
+    	</div>
+    	
+    	<div class="main" id="chatbox" style="display:none;">
     		<header>
 	        	<div class="rn-w-header clearfix">
-	        		<div class="col-sm-3 rn-i-p pd0 "><p><span class="fs18"><</span>返回</p></div>
-	        		<div class="col-sm-6 fs18"><p>飘香悄悄话</p></div>
+	        		<div class="col-sm-3 rn-i-p pd0 " onclick="CHAT.logout()"><p><span class="fs18"><</span>退出</p></div>
+	        		<div class="col-sm-6 fs18"><p>飘香悄悄话<span id="showusername"></span></p></div>
 	        		<div class="col-sm-3 pd0"><p>详细</p></div>
 	        	</div>
         	</header>
-        	<section>
-        		<div class="rn-i-session">
-        		</div>
-        	</section>
-        	<footer>
-        		<div class="rn-i-footer">
-        			<div class="col-sm-10">
-        				<input id="inputText" type="text" />
-        			</div>
-        			<div class="col-sm-2 rn-i-div pl0">
-        				<p class="text-center">发送</p>
-        			</div>
-        		</div>
-    		</footer>
+        	
+        	<div id="doc">
+	        	<section>
+	        		<div id="chat">
+                    <div id="message" class="message">
+					<div id="onlinecount" style="background:#EFEFF4; font-size:12px; margin-top:10px; margin-left:10px; color:#666;">
+	        	</section>
+	        	<footer>
+	        		<div class="rn-i-footer">
+	        			<div class="col-sm-10">
+	        				<input id="inputText" maxlength="140" type="text" placeholder="请输入聊天内容，按Ctrl提交" onkeyup="changeBtn()" id="content" name="content" />
+	        			</div>
+	        			<div class="col-sm-2 rn-i-div pl0">
+	        				<p id="btn" class="text-center" id="mjr_send" onclick="CHAT.submit();">发送</p>
+	        			</div>
+	        		</div>
+	    		</footer>
+    		</div>
     	</div>
     </body>
     <script>
-    	window.onload = function{
+			function changeBtn(){
     		var inputText = document.getElementById('inputText');
-    		console.log()
-    	}
+    		var btn = document.getElementById('btn');
+//  		console.log(inputText.value);
+    		if(!inputText.value){
+    			btn.style.backgroundColor = "#dddee2";
+    		}else{
+    			btn.style.backgroundColor = "#12b7f5";
+    		}
+			}
     </script>
+    <script src="js/client.js"></script>
 </html>
