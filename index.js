@@ -1,60 +1,75 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+// Setup basic express server
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3000;
 
-app.get('/',function(req, res){
-	res.sendFile(__dirname + '/index.html');
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
 });
 
-//在线用户
-var onlineUsers = {};
-//当前在线人数
-var onlineCount = 0;
+// Routing
+app.use(express.static(__dirname + '/public'));
 
-io.on('connection',function(socket){
-	console.log('a user connected');
-	
-	//监听新用户加入
-	scoket.on('login',function(obj){
-		//将新加入用户的唯一标识当做socket的名称
-		socket.name = obj.userId;
-		
-		//检查在线列表，如果不在里面就加入
-		if(!onlineUsers.hasOwnProperty(obj.userId)){
-			onlineUsers[obj.userId] = obj.userName;
-			//在线人数+1
-			onlineCount++;
-		}
-		
-		//向所有客户端广播用户加入
-		io.emit('login',{onlineUsers:onlineUsers, onlineCount:onlineCount, user:obj});
-		console.log(obj.userName + '加入了聊天室')
-	});
-	
-	//监听用户退出
-	scoket.on('disconnect',function(){
-		//将退出的用户从在线列表中删除
-		if(!onlineUsers.hasOwnProperty(socket.name)){
-			var obj = {userId:socket.name, userName:onlineUsers[scoket.name]};
-			//删除
-			delete onlineUsers[scoket.name];
-			//在线人数-1
-			onlineCount--;
-			
-			//向所有客户端广播用户退出
-			io.emit('logout',{onlineUsers:onlineUsers, onlineCount:onlineCount, user:obj});
-			console.log(obj.userName + '退出了聊天室');
-		}
-	});
-	
-	//监听用户发布聊天内容
-	scoket.on('message',function(obj){
-		//向所有客户端广播发布的消息
-		io.emit('message',obj);
-		console.log(obj.userName+'说：' + obj.content)
-	});
-});
+// Chatroom
 
-http.listen(3000, function(){
-	console.log('listening on *:3000');
+var numUsers = 0;
+
+io.on('connection', function (socket) {
+  var addedUser = false;
+
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message', function (data) {
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
 });

@@ -113,7 +113,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 .fs12{font-size:1.2rem;}
 
 /*main*/
-.main{width:100%;height:auto;position: relative;}
+.main{width:100%;height:auto;position: relative;margin:60px 0;}
 .rn-w-header{height:60px;width: 100%;background-color: #12b7f5;position: fixed;top: 0;}
 .rn-w-header p{text-align: center;line-height: 60px;color:#fff;height: 100%;}
 .rn-w-header img{margin-top:18px;width: 25px;height: 25px;}

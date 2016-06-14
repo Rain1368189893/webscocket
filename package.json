@@ -1,15 +1,16 @@
 {
   "name": "websocket",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "实时通讯",
-  "main": "nodejs,websocket",
+  "main": "/public/index.html",
   "dependencies": {
+    "express": "^4.13.4",
     "socket.io": "^1.4.6"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
     "html5"
   ],
   "author": "rain",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Rain1368189893/webscocket/issues"
   },
