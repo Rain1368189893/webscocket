@@ -1,5 +1,5 @@
-# webscocket
-scoket.io
+# websocket
+socket.io
 
 ###运行步骤
  * git clone
